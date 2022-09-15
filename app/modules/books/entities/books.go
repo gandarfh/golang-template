@@ -11,21 +11,21 @@ import (
 
 // Book struct to describe book object.
 type Book struct {
-	ID         uuid.UUID `bson:"id" json:"id" validate:"required,uuid"`
-	CreatedAt  time.Time `bson:"created_at" json:"created_at"`
-	UpdatedAt  time.Time `bson:"updated_at" json:"updated_at"`
-	UserID     uuid.UUID `bson:"user_id" json:"user_id" validate:"required,uuid"`
-	Title      string    `bson:"title" json:"title" validate:"required,lte=255"`
-	Author     string    `bson:"author" json:"author" validate:"required,lte=255"`
-	BookStatus int       `bson:"book_status" json:"book_status" validate:"required,len=1"`
-	BookAttrs  BookAttrs `bson:"book_attrs" json:"book_attrs" validate:"required,dive"`
+	ID         *uuid.UUID `bson:"id,omitempty" json:"id" validate:"required,uuid"`
+	CreatedAt  *time.Time `bson:"created_at,omitempty" json:"created_at"`
+	UpdatedAt  *time.Time `bson:"updated_at,omitempty" json:"updated_at"`
+	UserID     *uuid.UUID `bson:"user_id,omitempty" json:"user_id" validate:"required,uuid"`
+	Title      string     `bson:"title,omitempty" json:"title" validate:"required,lte=255"`
+	Author     string     `bson:"author,omitempty" json:"author" validate:"required,lte=255"`
+	BookStatus *int       `bson:"book_status,omitempty" json:"book_status" validate:"required,len=1"`
+	BookAttrs  *BookAttrs `bson:"book_attrs,omitempty" json:"book_attrs" validate:"required,dive"`
 }
 
 // BookAttrs struct to describe book attributes.
 type BookAttrs struct {
-	Picture     string `json:"picture" bson:"picture"`
-	Description string `json:"description" bson:"description"`
-	Rating      int    `json:"rating" bson:"rating" validate:"min=1,max=10"`
+	Picture     string `bson:"picture,omitempty" json:"picture"`
+	Description string `bson:"description,omitempty" json:"description"`
+	Rating      *int   `bson:"rating,omitempty" json:"rating" validate:"min=1,max=10"`
 }
 
 // Value make the BookAttrs struct implement the driver.Valuer interface.

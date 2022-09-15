@@ -2,6 +2,7 @@ package services
 
 import (
 	"goapi/app/modules/books/dto"
+	"goapi/shared/convert"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -15,15 +16,12 @@ func (repo BookServicesImpl) GetBook(ctx *fiber.Ctx, id uuid.UUID) (*dto.BookRes
 		return nil, err
 	}
 
-	res := dto.BookResponse{
-		ID:         books.ID,
-		CreatedAt:  books.CreatedAt,
-		UpdatedAt:  books.UpdatedAt,
-		UserID:     books.UserID,
-		Title:      books.Title,
-		Author:     books.Author,
-		BookStatus: books.BookStatus,
-		BookAttrs:  dto.BookAttrs(books.BookAttrs),
+	res := dto.BookResponse{}
+
+	err = convert.ToStruct(*books, &res)
+	if err != nil {
+		// Return, if books not found.
+		return nil, err
 	}
 
 	// Return status 200 OK.

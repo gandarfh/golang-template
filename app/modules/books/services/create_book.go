@@ -1,33 +1,31 @@
 package services
 
 import (
+	"fmt"
 	"goapi/app/modules/books/dto"
 	"goapi/app/modules/books/entities"
+	"goapi/shared/convert"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
-// GetBooks(ctx *fiber.Ctx) (*dto.BookListAllResponse, errors.RespError)
-// GetBook(ctx *fiber.Ctx, bookId int) (*dto.BookResponse, errors.RespError)
-// CreateBook(ctx *fiber.Ctx, book *dto.BookCreateRequest) (dto.BookResponse, errors.RespError)
-// UpdateBook(ctx *fiber.Ctx, book *dto.BookUpdateRequest) (dto.BookResponse, errors.RespError)
-// DeleteBook(ctx *fiber.Ctx, bookId int) (dto.BookDeleteResponse, errors.RespError)
-
 func (repo BookServicesImpl) CreateBook(ctx *fiber.Ctx, userId uuid.UUID, body *dto.BookCreateRequest) (*dto.BookResponse, error) {
+	book := entities.Book{}
+	convert.ToStruct(body, &book)
 
-	// // Set initialized default data for book:
-	book := entities.Book{
-		ID:         uuid.New(),
-		CreatedAt:  time.Now(),
-		UpdatedAt:  time.Now(),
-		BookStatus: 1,
-		UserID:     userId,
-		Title:      body.Title,
-		Author:     body.Author,
-		BookAttrs:  entities.BookAttrs(body.BookAttrs),
-	}
+	id := uuid.New()
+	status := 1
+	now := time.Now()
+
+	// Set initialized default data for book:
+	book.ID = &id
+	book.CreatedAt = &now
+	book.BookStatus = &status
+	book.UserID = &userId
+
+	fmt.Println(now.Format("2006-01-02 15:04"))
 
 	// Insert Book provided into database.
 	newBook, err := repo.BookRepository.CreateBook(ctx, &book)
@@ -37,16 +35,8 @@ func (repo BookServicesImpl) CreateBook(ctx *fiber.Ctx, userId uuid.UUID, body *
 
 	}
 
-	response := dto.BookResponse{
-		ID:         newBook.ID,
-		CreatedAt:  newBook.CreatedAt,
-		UpdatedAt:  newBook.UpdatedAt,
-		UserID:     newBook.UserID,
-		Title:      newBook.Title,
-		Author:     newBook.Author,
-		BookStatus: newBook.BookStatus,
-		BookAttrs:  dto.BookAttrs(newBook.BookAttrs),
-	}
+	response := dto.BookResponse{}
+	convert.ToStruct(newBook, &response)
 
 	// Return status 200 OK.
 	return &response, nil

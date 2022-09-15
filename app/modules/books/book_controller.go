@@ -1,7 +1,6 @@
 package books
 
 import (
-	"fmt"
 	"goapi/app/modules/books/dto"
 	"goapi/app/modules/books/services"
 	"goapi/shared/errors"
@@ -27,8 +26,6 @@ func GetBooks(c *fiber.Ctx) error {
 	if err != nil {
 		return errors.ErrorResponse(c, err)
 	}
-
-	fmt.Println("jaummmmmmmmm")
 
 	// Get all books.
 	books, err := service.GetBooks(c)
