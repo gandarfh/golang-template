@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"goapi/app/permissions"
+	"goapi/pkg/permissions"
 	"github.com/golang-jwt/jwt/v4"
 )
 

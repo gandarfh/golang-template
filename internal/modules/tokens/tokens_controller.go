@@ -1,9 +1,9 @@
 package tokens
 
 import (
-	"goapi/app/modules/tokens/dto"
-	"goapi/app/modules/tokens/services"
-	"goapi/shared/errors"
+	"goapi/internal/modules/tokens/dto"
+	"goapi/internal/modules/tokens/services"
+	"goapi/pkg/errors"
 
 	"github.com/gofiber/fiber/v2"
 )

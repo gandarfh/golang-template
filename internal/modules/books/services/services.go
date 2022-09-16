@@ -1,8 +1,8 @@
 package services
 
 import (
-	"goapi/app/modules/books/dto"
-	"goapi/app/modules/books/repositories"
+	"goapi/internal/modules/books/dto"
+	"goapi/internal/modules/books/repositories"
 
 	"github.com/gofiber/fiber/v2"
 )

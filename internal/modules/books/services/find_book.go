@@ -1,8 +1,8 @@
 package services
 
 import (
-	"goapi/app/modules/books/dto"
-	"goapi/shared/convert"
+	"goapi/internal/modules/books/dto"
+	"goapi/pkg/convert"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"

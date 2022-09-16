@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"goapi/shared/jwt"
+	"goapi/pkg/jwt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"

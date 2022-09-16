@@ -1,8 +1,8 @@
 package books
 
 import (
-	"goapi/app/middleware"
-	"goapi/app/permissions"
+	"goapi/internal/middleware"
+	"goapi/pkg/permissions"
 
 	"github.com/gofiber/fiber/v2"
 )

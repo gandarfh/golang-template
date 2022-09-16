@@ -1,10 +1,10 @@
 package main
 
 import (
-	"goapi/app/middleware"
-	"goapi/shared/configs"
-	"goapi/shared/routes"
-	"goapi/shared/utils"
+	"goapi/internal/middleware"
+	"goapi/internal/routes"
+	"goapi/pkg/configs"
+	"goapi/pkg/utils"
 	"os"
 
 	"github.com/gofiber/fiber/v2"

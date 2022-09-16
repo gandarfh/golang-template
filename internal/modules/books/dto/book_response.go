@@ -1,8 +1,8 @@
 package dto
 
 import (
-	"goapi/app/modules/books/entities"
-	"goapi/shared/pagination"
+	"goapi/internal/modules/books/entities"
+	"goapi/pkg/pagination"
 	"time"
 
 	"github.com/google/uuid"

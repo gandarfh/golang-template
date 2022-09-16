@@ -2,10 +2,10 @@ package repositories
 
 import (
 	"fmt"
-	"goapi/app/modules/books/dto"
-	"goapi/app/modules/books/entities"
-	"goapi/shared/errors"
-	"goapi/shared/pagination"
+	"goapi/internal/modules/books/dto"
+	"goapi/internal/modules/books/entities"
+	"goapi/pkg/errors"
+	"goapi/pkg/pagination"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"

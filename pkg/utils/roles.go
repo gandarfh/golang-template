@@ -3,7 +3,7 @@ package utils
 import (
 	"fmt"
 
-	"goapi/app/permissions"
+	"goapi/pkg/permissions"
 )
 
 // VerifyRole func for verifying a given role.

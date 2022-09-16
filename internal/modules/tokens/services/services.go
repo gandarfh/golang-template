@@ -1,10 +1,10 @@
 package services
 
 import (
-	"goapi/app/modules/tokens/dto"
-	"goapi/app/permissions"
-	"goapi/shared/errors"
-	"goapi/shared/jwt"
+	"goapi/internal/modules/tokens/dto"
+	"goapi/pkg/permissions"
+	"goapi/pkg/errors"
+	"goapi/pkg/jwt"
 	"os"
 
 	"github.com/google/uuid"

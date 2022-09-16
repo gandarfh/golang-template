@@ -1,11 +1,11 @@
 package books
 
 import (
-	"goapi/app/modules/books/dto"
-	"goapi/app/modules/books/services"
-	"goapi/shared/errors"
-	"goapi/shared/jwt"
-	"goapi/shared/utils"
+	"goapi/internal/modules/books/dto"
+	"goapi/internal/modules/books/services"
+	"goapi/pkg/errors"
+	"goapi/pkg/jwt"
+	"goapi/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"

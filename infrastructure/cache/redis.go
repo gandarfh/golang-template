@@ -4,7 +4,7 @@ import (
 	"os"
 	"strconv"
 
-	"goapi/shared/utils"
+	"goapi/pkg/utils"
 
 	"github.com/go-redis/redis/v8"
 )

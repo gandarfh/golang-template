@@ -2,9 +2,9 @@ package services
 
 import (
 	"fmt"
-	"goapi/app/modules/books/dto"
-	"goapi/app/modules/books/entities"
-	"goapi/shared/convert"
+	"goapi/internal/modules/books/dto"
+	"goapi/internal/modules/books/entities"
+	"goapi/pkg/convert"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
