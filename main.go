@@ -17,7 +17,7 @@ import (
 // @title Go Api Documentation
 // @BasePath /api
 // @securityDefinitions.apikey ApiKeyAuth
-
+// @in header
 // @name Authorization
 func main() {
 	// Define Fiber config.

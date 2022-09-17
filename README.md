@@ -3,8 +3,9 @@
 ## Architecture
 
 ```bash
-├── app
+├── internal
 │   ├── middleware
+│   ├── routes
 │   ├── modules
 │   │   ├── [module]
 │   │   │   ├── [module]_controller.go
@@ -14,18 +15,17 @@
 │   │   │   ├── repositories
 │   │   │   └── services
 │   │   └── ...
-│   └── permissions
 ├── docs
 ├── infrastructure
 │   ├── cache
 │   ├── database
 │   └── migrations
-├── shared
+├── pkg
+│   ├── permissions
 │   ├── configs
 │   ├── errors
 │   ├── jwt
 │   ├── pagination
-│   ├── routes
 ├── └── utils
 └── main.go
 ```

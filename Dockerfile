@@ -8,18 +8,17 @@ WORKDIR /app
 # Copy and download dependency using go mod.
 COPY go.mod ./
 COPY go.sum ./
+
 COPY . .
 
-# RUN go mod tidy
-RUN go mod vendor
+RUN go mod tidy
 RUN go build -o server
 
 FROM scratch
 
 WORKDIR /
 # Copy binary and config files from /build to root folder of scratch container.
-# TODO: remover .env
-COPY --from=build ["/app/server", "/.env"]
+COPY --from=build app/server /app/server
 
 EXPOSE 5000
 
