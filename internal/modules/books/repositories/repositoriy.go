@@ -7,12 +7,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// BookRepo struct for queries from Book model.
-type BookRepo struct {
-	Mongo *mongo.Database
+// BookRepositoryImpl struct for queries from Book model.
+type BookRepositoryImpl struct {
+	BooksCollection *mongo.Collection
 }
 
-func NewBookRepository(ctx *fiber.Ctx) (*BookRepo, error) {
+func NewBookRepository(ctx *fiber.Ctx) (*BookRepositoryImpl, error) {
 	db, err := database.OpenDBConnection(ctx, "mongodb")
 
 	if err != nil {
@@ -21,7 +21,7 @@ func NewBookRepository(ctx *fiber.Ctx) (*BookRepo, error) {
 	}
 
 	database := db.Mongo.Database("app")
-	return &BookRepo{
-		Mongo: database,
-	}, nil
+	booksCollection := database.Collection("books")
+
+	return &BookRepositoryImpl{booksCollection}, nil
 }
