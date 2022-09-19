@@ -1,4 +1,4 @@
-package books
+package controllers
 
 import (
 	"goapi/internal/modules/books/dto"
