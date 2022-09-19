@@ -6,9 +6,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (serv BookServicesImpl) GetBooks(ctx *fiber.Ctx) (*dto.BookListAllResponse, error) {
+func (repo *BookServicesImpl) GetBooks(ctx *fiber.Ctx) (*dto.BookListAllResponse, error) {
 	// Get all allBooks.
-	res, err := serv.BookRepository.GetBooks(ctx)
+	res, err := repo.BookRepository.GetBooks(ctx)
 
 	if err != nil {
 		// Return, if books not found.

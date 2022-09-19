@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (repo BookServicesImpl) GetBook(ctx *fiber.Ctx, id uuid.UUID) (*dto.BookResponse, error) {
+func (repo *BookServicesImpl) GetBook(ctx *fiber.Ctx, id uuid.UUID) (*dto.BookResponse, error) {
 	// Get all books.
 	books, err := repo.BookRepository.GetBook(ctx, id)
 	if err != nil {

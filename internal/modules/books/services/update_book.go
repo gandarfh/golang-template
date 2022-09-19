@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (repo BookServicesImpl) UpdateBook(ctx *fiber.Ctx, id *uuid.UUID, body *dto.BookUpdateRequest) (*dto.BookResponse, error) {
+func (repo *BookServicesImpl) UpdateBook(ctx *fiber.Ctx, id *uuid.UUID, body *dto.BookUpdateRequest) (*dto.BookResponse, error) {
 	book := entities.Book{}
 	// Parse from dto to entities struct
 	convert.ToStruct(*body, &book)
