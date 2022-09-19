@@ -75,11 +75,11 @@ func (c *client) Body(b interface{}) *client {
 	}
 }
 
-func (c *client) Decode(decode interface{}) error {
+func (c *client) Decode(decode any) (*http.Response, error) {
 	request, err := http.NewRequest(c.method, c.url, c.body)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	for _, item := range c.headers {
@@ -99,15 +99,18 @@ func (c *client) Decode(decode interface{}) error {
 	response, err := client.Do(request)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	data, err := ioutil.ReadAll(response.Body)
-	if err := json.Unmarshal(data, decode); err != nil {
-		return err
+
+	if decode != nil {
+		if err := json.Unmarshal(data, decode); err != nil {
+			return nil, err
+		}
 	}
 
-	return nil
+	return response, nil
 }
 
 func Post(url string) *client {
