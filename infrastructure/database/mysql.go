@@ -23,7 +23,6 @@ func MysqlConnection() (*sqlx.DB, error) {
 	// Build Mysql connection URL.
 
 	mysqlConnURL, err := utils.ConnectionURLBuilder("mysql")
-	fmt.Println(mysqlConnURL)
 	if err != nil {
 		return nil, err
 	}

@@ -13,7 +13,7 @@ type Databases struct {
 
 // OpenDBConnection func for opening database connection.
 // dbType must be:
-// "mongodb" | "mysql" | "postgres"
+// "mongodb" | "memory_mongodb" | "mysql" | "postgres"
 func OpenDBConnection(ctx *fiber.Ctx, dbType string) (*Databases, error) {
 	var (
 		dbSql   *sqlx.DB
@@ -29,6 +29,8 @@ func OpenDBConnection(ctx *fiber.Ctx, dbType string) (*Databases, error) {
 		dbSql, err = MysqlConnection()
 	case "mongodb":
 		dbMongo, err = MongodbConnection(ctx)
+	case "memory_mongodb":
+		dbMongo, err = MemoryMongodbConnection(ctx)
 	}
 
 	if err != nil {
