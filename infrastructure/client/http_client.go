@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -48,50 +47,38 @@ func (c *client) AddCookie(cookie *http.Cookie) *client {
 
 func (c *client) Params(key string, value string) *client {
 	c.params = append(c.params, &params{key: key, value: value})
-
-	queryParams := []string{"?"}
-
-	last := len(c.params) - 1
-
-	for i, item := range c.params {
-		if i == last {
-			queryParams = append(queryParams, item.key, "=", item.value)
-			continue
-		}
-
-		queryParams = append(queryParams, item.key, "=", item.value, "&")
-	}
-
-	c.url = c.url + strings.Join(queryParams, "")
-
 	return c
 }
 
-func (c *client) Body(b interface{}) *client {
-	body, _ := json.Marshal(b)
-
-	return &client{
-		body: bytes.NewReader(body),
-	}
+func (c *client) Body(b []byte) *client {
+	c.body = bytes.NewBuffer(b)
+	return c
 }
 
-func (c *client) Decode(decode any) (*http.Response, error) {
+func (c *client) Exec() (*http.Response, error) {
 	request, err := http.NewRequest(c.method, c.url, c.body)
 
 	if err != nil {
 		return nil, err
 	}
 
+	q := request.URL.Query()
+	for _, item := range c.params {
+		q.Add(item.key, item.value)
+	}
+
+	request.URL.RawQuery = q.Encode()
+
+	request.Header.Add("access-control-allow-headers", "*")
+	request.Header.Add("access-control-allow-origin", "*")
+	request.Header.Add("accept", "application/json, text/plain, */*")
+	request.Header.Add("Content-Type", "application/json; charset=utf-8")
+	request.Header.Add("x-ratelimit-limit", "80")
 	for _, item := range c.headers {
 		request.Header.Add(item.key, item.value)
 	}
 
-	for _, item := range c.cookies {
-		request.AddCookie(item)
-	}
-
 	SERVER_READ_TIMEOUT, _ := strconv.Atoi(os.Getenv("SERVER_READ_TIMEOUT"))
-
 	client := http.Client{
 		Timeout: time.Second * time.Duration(SERVER_READ_TIMEOUT),
 	}
@@ -102,7 +89,20 @@ func (c *client) Decode(decode any) (*http.Response, error) {
 		return nil, err
 	}
 
-	data, err := ioutil.ReadAll(response.Body)
+	return response, nil
+}
+
+func (c *client) Decode(decode any) (*http.Response, error) {
+	res, err := c.Exec()
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := ioutil.ReadAll(res.Body)
+
+	if err != nil {
+		return nil, err
+	}
 
 	if decode != nil {
 		if err := json.Unmarshal(data, decode); err != nil {
@@ -110,7 +110,14 @@ func (c *client) Decode(decode any) (*http.Response, error) {
 		}
 	}
 
-	return response, nil
+	return res, nil
+}
+
+func Request(url string, method string) *client {
+	return &client{
+		url:    url,
+		method: method,
+	}
 }
 
 func Post(url string) *client {
