@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"goapi/internal/modules/books/dto"
 	"goapi/internal/modules/books/entities"
 	"goapi/pkg/convert"
@@ -24,8 +23,6 @@ func (repo BookServicesImpl) CreateBook(ctx *fiber.Ctx, userId uuid.UUID, body *
 	book.CreatedAt = &now
 	book.BookStatus = &status
 	book.UserID = &userId
-
-	fmt.Println(now.Format("2006-01-02 15:04"))
 
 	// Insert Book provided into database.
 	newBook, err := repo.BookRepository.CreateBook(ctx, &book)
