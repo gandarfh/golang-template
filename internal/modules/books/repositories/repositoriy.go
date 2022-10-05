@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"goapi/infrastructure/database"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,8 +14,8 @@ type BookRepositoryImpl struct {
 }
 
 func NewBookRepository(ctx *fiber.Ctx) (*BookRepositoryImpl, error) {
-	db, err := database.OpenDBConnection(ctx, "mongodb")
-
+	DB_TYPE := os.Getenv("DB_TYPE")
+	db, err := database.OpenDBConnection(ctx, DB_TYPE)
 	if err != nil {
 		// Return status 500 and database connection error.
 		return nil, err
