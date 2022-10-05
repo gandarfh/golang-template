@@ -1,23 +1,9 @@
-.PHONY: clean critic security lint test build run
-
-APP_NAME = apiserver
+APP_NAME = goapi
 BUILD_DIR = $(PWD)/build
 MIGRATIONS_FOLDER = $(PWD)/platform/migrations
 DATABASE_URL = postgres://postgres:password@cgapp-postgres/postgres?sslmode=disable
 
-clean:
-	rm -rf ./build
-
-critic:
-	gocritic check -enableAll ./...
-
-security:
-	gosec ./...
-
-lint:
-	golangci-lint run ./...
-
-test: clean critic security lint
+test:
 	go test -v -timeout 30s -coverprofile=cover.out -cover ./...
 	go tool cover -func=cover.out
 
@@ -36,7 +22,7 @@ migrate.down:
 migrate.force:
 	migrate -path $(MIGRATIONS_FOLDER) -database "$(DATABASE_URL)" force $(version)
 
-docker.run: docker.postgres swag docker.fiber docker.redis migrate.up
+docker.run: docker.mongo swag docker.fiber docker.redis
 
 docker.network:
 	docker network inspect dev-network >/dev/null 2>&1 || \
@@ -62,8 +48,6 @@ docker.postgres:
 		-v ${HOME}/dev-postgres/data/:/var/lib/postgresql/data \
 		-p 5432:5432 \
 		postgres
-
-
 
 docker.mongo:
 	docker run --rm -d \
