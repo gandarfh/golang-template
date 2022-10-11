@@ -16,7 +16,7 @@ func Init() LoggerImpl {
 	var log LoggerImpl = InitDefault()
 
 	if os.Getenv("CLOUDWATCH_LOG") == "true" {
-		// log = InitCloudWatch()
+		log = InitCloudWatch()
 	}
 
 	return log

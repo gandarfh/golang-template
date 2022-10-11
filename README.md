@@ -61,8 +61,8 @@ air run .
 
 ## 📦 Features Roadmap
 
-- [ ] Http request implementation
-- [ ] Logs implementation
+- [x] Http request implementation
+- [x] Logs implementation
 - [ ] Implementation AWS stuffs, like: SNS, SKS
 - [ ] Documentation - how create new modules
 - [ ] Documentation - how connect to database
