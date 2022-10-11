@@ -61,6 +61,7 @@ air run .
 
 ## 📦 Features Roadmap
 
+- [ ] Deployment to aws
 - [x] Http request implementation
 - [x] Logs implementation
 - [ ] Implementation AWS stuffs, like: SNS, SKS
