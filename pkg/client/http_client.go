@@ -30,6 +30,16 @@ type client struct {
 	cookies []*http.Cookie
 }
 
+type response struct {
+	Response *http.Response
+	Error    error
+}
+
+func (c *client) Url(url string) *client {
+	c.url = url
+	return c
+}
+
 func (c *client) Header(key string, value string) *client {
 	c.headers = append(c.headers, &header{
 		key:   key,
@@ -92,25 +102,23 @@ func (c *client) Exec() (*http.Response, error) {
 	return response, nil
 }
 
-func (c *client) Decode(decode any) (*http.Response, error) {
-	res, err := c.Exec()
+func (r *response) Decode(decode interface{}) error {
+	data, err := ioutil.ReadAll(r.Response.Body)
 	if err != nil {
-		return nil, err
-	}
-
-	data, err := ioutil.ReadAll(res.Body)
-
-	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if decode != nil {
 		if err := json.Unmarshal(data, decode); err != nil {
-			return nil, err
+			return err
 		}
 	}
 
-	return res, nil
+	return nil
+}
+
+func New() *client {
+	return &client{}
 }
 
 func Request(url string, method string) *client {
@@ -120,37 +128,32 @@ func Request(url string, method string) *client {
 	}
 }
 
-func Post(url string) *client {
-	return &client{
-		url:    url,
-		method: http.MethodPost,
-	}
+func (c *client) Get() *response {
+	c.method = http.MethodGet
+	res, err := c.Exec()
+	return &response{res.Request.Response, err}
 }
 
-func Get(url string) *client {
-	return &client{
-		url:    url,
-		method: http.MethodGet,
-	}
+func (c *client) Post() *response {
+	c.method = http.MethodPost
+	res, err := c.Exec()
+	return &response{res.Request.Response, err}
 }
 
-func Patch(url string) *client {
-	return &client{
-		url:    url,
-		method: http.MethodPatch,
-	}
+func (c *client) Patch() *response {
+	c.method = http.MethodPatch
+	res, err := c.Exec()
+	return &response{res.Request.Response, err}
 }
 
-func Delete(url string) *client {
-	return &client{
-		url:    url,
-		method: http.MethodDelete,
-	}
+func (c *client) Delete() *response {
+	c.method = http.MethodDelete
+	res, err := c.Exec()
+	return &response{res.Request.Response, err}
 }
 
-func Put(url string) *client {
-	return &client{
-		url:    url,
-		method: http.MethodPut,
-	}
+func (c *client) Put() *response {
+	c.method = http.MethodPut
+	res, err := c.Exec()
+	return &response{res.Request.Response, err}
 }
